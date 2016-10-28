@@ -20,7 +20,7 @@ class SmartSnippetPlugin(CMSPluginBase):
     render_template = 'smartsnippets/plugin.html'
 
 
-    def change_view(self, request, object_id, extra_context=None):
+    def change_view(self, request, object_id, form_url='', extra_context=None):
         if extra_context is None:
             extra_context = {}
         pointer = SmartSnippetPointer.objects.get(pk=object_id)
@@ -34,7 +34,7 @@ class SmartSnippetPlugin(CMSPluginBase):
             [(var, existing_dict.get(var, ''), existing_dict_is_active.get(var, False)) for var in variables]
         })
         return (super(SmartSnippetPlugin, self)
-            .change_view(request, object_id, extra_context))
+            .change_view(request, object_id, form_url, extra_context))
 
     def render(self, context, instance, placeholder):
         context.update({'content': instance.render(context)})
